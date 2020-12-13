@@ -7,18 +7,37 @@ running ( запуск). Атрибут реализовать как прива
 указанном порядке (красный, желтый, зеленый). Проверить работу примера, создав экземпляр
 и вызвав описанный метод.
 """
+import time
 
-class TrafficLight():
-    def __init__(self):
-        self._colors = ('red', 'yellow', 'green')
-        self._mode = 0
-        self.__color = self._colors[self._mode]
+class TrafficLight:
+    """
+    TrafficLight(n) - где n = кол-во секунд работы зеленого сигнала, по умолчанию 5 сек.
+    """
+    RED_LIGHT_TIME = 7
+    YELLOW_LIGHT_TIME = 2
+
+    def __init__(self, green_light_time=5):
+        self._light_modes = [
+            {'color': 'R', 'light_time': TrafficLight.RED_LIGHT_TIME, 'next_mode': 1},
+            {'color': 'Y', 'light_time': TrafficLight.YELLOW_LIGHT_TIME, 'next_mode': 2},
+            {'color': 'G', 'light_time': green_light_time, 'next_mode': 3},
+            {'color': 'Y', 'light_time': TrafficLight.YELLOW_LIGHT_TIME, 'next_mode': 0}
+        ]
+        self._current_mode = 0
+        self._mode_start_time = round(time.time(), 1)
 
     def running(self):
-        return None
+        switch_time = self._light_modes[self._current_mode]['light_time']
+        current_time = round(time.time(), 1)
 
-    def mode(self):
-        return self.__color
+        if (current_time - self._mode_start_time) >= switch_time:
+            self._current_mode = self._light_modes[self._current_mode]['next_mode']
+            self._mode_start_time = round(time.time(), 1)
 
-ttt = TrafficLight()
-print(ttt.mode())
+        return self._light_modes[self._current_mode]['color']
+
+tl = TrafficLight()
+
+while True:
+    print(tl.running())
+    time.sleep(0.5)
