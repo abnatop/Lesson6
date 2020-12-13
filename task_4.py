@@ -10,6 +10,7 @@ TownCar и WorkCar переопределите метод show_speed. При з
 атрибутам, выведите результат. Выполните вызов методов и также покажите результат.
 """
 
+
 class Car:
     def __init__(self, speed, color, name, is_police=False):
         self.speed = speed
@@ -25,11 +26,17 @@ class Car:
     def is_move(self):
         return self.__drive
 
+    def show_speed(self):
+        print(f'Car speed is {self.speed}.')
+
     def go(self):
+        if self.speed == 0:
+            self.speed += 1
         self.__drive = True
         print('Car go.')
 
     def stop(self):
+        self.speed = 0
         self.__drive = False
         print('Car stop.')
 
@@ -40,10 +47,58 @@ class Car:
             print(f'Car is not move.')
 
 
-cc = Car(speed=0, color='black', name='VOLVO')
-print(f'Car name is {cc.name}, color is {cc.color}')
+class TownCar(Car):
+    def __init__(self, speed, color, name):
+        super().__init__(speed, color, name)
+        self.__speed_limit = 60
 
-cc.turn()
-cc.go()
-cc.turn('left')
-cc.stop()
+    def show_speed(self):
+        message = f'Car speed is {self.speed}'
+        if self.speed > self.__speed_limit:
+            message += f', speed limit [{self.__speed_limit}],'
+            message += f' over speed [{self.speed - self.__speed_limit}].'
+        else:
+            message += '.'
+
+        print(message)
+
+
+class WorkCar(Car):
+    def __init__(self, speed, color, name):
+        super().__init__(speed, color, name)
+        self.__speed_limit = 40
+
+    def show_speed(self):
+        message = f'Car speed is {self.speed}'
+        if self.speed > self.__speed_limit:
+            message += f', speed limit [{self.__speed_limit}],'
+            message += f' over speed [{self.speed - self.__speed_limit}].'
+        else:
+            message += '.'
+
+        print(message)
+
+
+class SportCar(Car):
+    def __init__(self, speed, color, name):
+        super().__init__(speed, color, name)
+
+
+class PoliceCar(Car):
+    def __init__(self, speed, color, name):
+        super().__init__(speed, color, name, is_police=True)
+
+
+cars = []
+cars.append(TownCar(speed=30, color='white', name='BMW'))
+cars.append(WorkCar(speed=70, color='grey', name='ISUZU'))
+cars.append(SportCar(speed=150, color='red', name='PORSCHE'))
+cars.append(PoliceCar(speed=100, color='black', name='FORD'))
+
+for car in cars:
+    print(f'Car name is {car.name}, color is {car.color}, is police [{car.is_police}]')
+    car.go()
+    car.turn('left')
+    car.show_speed()
+    car.stop()
+    print('---')
