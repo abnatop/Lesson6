@@ -15,10 +15,21 @@ class Stationery:
         pass
 
 class Pen(Stationery):
-    pass
+    def draw(self):
+        print(f'Draw as pen named [{self.title}]')
 
 class Pencil(Stationery):
-    pass
+    def draw(self):
+        print(f'Draw as pencil named [{self.title}]')
 
 class Handle(Stationery):
-    pass
+    def draw(self):
+        print(f'Draw as handle named [{self.title}]')
+
+stationerys = []
+stationerys.append(Pen('pen1'))
+stationerys.append(Pencil('pencil2'))
+stationerys.append(Handle('handle3'))
+
+for item in stationerys:
+    item.draw()
