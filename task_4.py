@@ -47,42 +47,28 @@ class Car:
             print(f'Car is not move.')
 
 
-class TownCar(Car):
-    def __init__(self, speed, color, name):
-        super().__init__(speed, color, name)
-        self.__speed_limit = 60
-
+class SpeedLimit:
     def show_speed(self):
         message = f'Car speed is {self.speed}'
-        if self.speed > self.__speed_limit:
-            message += f', speed limit [{self.__speed_limit}],'
-            message += f' over speed [{self.speed - self.__speed_limit}].'
+        if self.speed > self._speed_limit:
+            message += f', speed limit [{self._speed_limit}],'
+            message += f' over speed [{self.speed - self._speed_limit}].'
         else:
             message += '.'
 
         print(message)
 
 
-class WorkCar(Car):
-    def __init__(self, speed, color, name):
-        super().__init__(speed, color, name)
-        self.__speed_limit = 40
+class TownCar(SpeedLimit, Car):
+    _speed_limit = 60
 
-    def show_speed(self):
-        message = f'Car speed is {self.speed}'
-        if self.speed > self.__speed_limit:
-            message += f', speed limit [{self.__speed_limit}],'
-            message += f' over speed [{self.speed - self.__speed_limit}].'
-        else:
-            message += '.'
 
-        print(message)
+class WorkCar(SpeedLimit, Car):
+    _speed_limit = 40
 
 
 class SportCar(Car):
-    def __init__(self, speed, color, name):
-        super().__init__(speed, color, name)
-
+    pass
 
 class PoliceCar(Car):
     def __init__(self, speed, color, name):
