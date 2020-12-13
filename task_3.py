@@ -9,6 +9,7 @@ surname, position (должность), income (доход). Последний 
 вызвать методы экземпляров).
 """
 
+
 class Worker:
     def __init__(self, name, surname, position, income):
         self.name = name
@@ -16,12 +17,23 @@ class Worker:
         self.position = position
         self._income = income
 
+
 class Position(Worker):
     def __init__(self, name, surname, position, income):
         super().__init__(name, surname, position, income)
 
     def get_full_name(self):
-        return f'{title(self.name)} {title(self.name)}'
+        return f'{self.name.title()} {self.surname.title()}'
 
     def get_total_income(self):
-        pass
+        return self._income['wage'] + self._income['bonus']
+
+
+person = Position(name='vasya',
+                  surname='pupkin',
+                  position='driver',
+                  income={'wage': 100, 'bonus': 20}
+                  )
+
+print(f'Сотрудник: имя - {person.name}, фамилия - {person.surname}, должность - {person.position}.')
+print(f'Карточка: ФИО - {person.get_full_name()}, доход с учетом премии - {person.get_total_income()}.')
